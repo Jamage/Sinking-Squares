@@ -1,0 +1,33 @@
+Falling Block Jam 
+
+TO DO:
+[x] Ghost Blocks must represent the current block
+[x] Wall Kick Rules to prevent rotation issues at the edges
+[x] Ground blocks sinking / being eaten
+[x] Add score
+	- 1 pt per second
+	- 1 pt per cell consumed at bottom
+	- 1 pt per cell converted
+	- Item points 
+	
+[] Convey control mode
+	
+[] Add more tiles / items to go on top of tiles
+	- Treasure Chest?
+	- Water shoes? (can traverse 1 water tile)
+		- Must convey this in UI with number of steps allowed
+	- Armor?
+[] Try adding danger zones (rows / columns) that will be deleted within the next ~3 turns.
+	- Convey this with animated rings or a flashing overlay of some sort
+	- deleted blocks should cause fall-down (?)
+		- worried about stranding player without a way to drop blocks for a path.
+[] Block cycling where left to right is moved a certain amount?
+[] Art - Add whatever entity is consuming from the bottom
+
+
+QUESTIONS:
+- What balancing forces do I have against a scenario in which a player stacks high and just sits there?
+	- Faster eating
+		- Base this on how long the player has survived
+		- Base this on how high the player has gotten on the board
+	- 

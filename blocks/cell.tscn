@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dlwa3axe3dxrc"]
+
+[ext_resource type="Script" uid="uid://edbb2d4m2nj8" path="res://blocks/cell.gd" id="1_55e7a"]
+[ext_resource type="Texture2D" uid="uid://bwm3k038qgpj8" path="res://Art/GrassCell.png" id="1_ydt6m"]
+
+[node name="Cell" type="Sprite2D" unique_id=1105511796]
+texture = ExtResource("1_ydt6m")
+centered = false
+script = ExtResource("1_55e7a")

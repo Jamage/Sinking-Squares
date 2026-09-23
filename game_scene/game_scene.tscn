@@ -1,0 +1,330 @@
+[gd_scene format=3 uid="uid://bu2bu8boxi8qe"]
+
+[ext_resource type="Script" uid="uid://dcdovaes0c85s" path="res://game_scene/game_scene.gd" id="1_3kg8t"]
+[ext_resource type="Texture2D" uid="uid://d2x56drqjpo87" path="res://Art/Board.png" id="1_m1k14"]
+[ext_resource type="Texture2D" uid="uid://dax42sgo2s76l" path="res://Art/Bunny.png" id="2_3kg8t"]
+[ext_resource type="Script" uid="uid://c0qtv7d8hp04k" path="res://components/input_component.gd" id="2_k340r"]
+[ext_resource type="Shader" uid="uid://dttsg5kqe3o8" path="res://shaders/outline.gdshader" id="4_05euk"]
+[ext_resource type="Theme" uid="uid://dkbel2s7qwes8" path="res://main_theme.tres" id="5_e0oqy"]
+
+[sub_resource type="Resource" id="Resource_3kg8t"]
+script = ExtResource("2_k340r")
+metadata/_custom_type_script = "uid://c0qtv7d8hp04k"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_806qn"]
+shader = ExtResource("4_05euk")
+shader_parameter/rainbow = true
+shader_parameter/line_color = Color(1, 0.19999999, 0.19999999, 1)
+shader_parameter/line_scale = 0.0
+shader_parameter/frequency = 0.50000002375
+shader_parameter/light_offset = 0.50001002374975
+shader_parameter/alpha = 1.0
+
+[node name="GameScene" type="Node2D" unique_id=2034316869]
+script = ExtResource("1_3kg8t")
+input = SubResource("Resource_3kg8t")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=125558850]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2" unique_id=1098617512]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1536, 0.29226664, 0.32, 1)
+
+[node name="Board" type="Sprite2D" parent="." unique_id=122916483]
+position = Vector2(280, 64)
+texture = ExtResource("1_m1k14")
+centered = false
+
+[node name="SpawnParent" type="Node2D" parent="." unique_id=942141984]
+position = Vector2(280, 64)
+
+[node name="PlacedParent" type="Node2D" parent="." unique_id=646508886]
+position = Vector2(280, 64)
+
+[node name="Player" type="Sprite2D" parent="PlacedParent" unique_id=629306816]
+unique_name_in_owner = true
+z_index = 1
+material = SubResource("ShaderMaterial_806qn")
+position = Vector2(79, 270)
+texture = ExtResource("2_3kg8t")
+centered = false
+
+[node name="BagParent" type="Node2D" parent="." unique_id=1122516033]
+position = Vector2(488, 96)
+
+[node name="BlockFallTimer" type="Timer" parent="." unique_id=628794052]
+
+[node name="SinkingTimer" type="Timer" parent="." unique_id=1324617344]
+wait_time = 1.6
+
+[node name="RowClearTimer" type="Timer" parent="." unique_id=1484386466]
+wait_time = 5.0
+
+[node name="MarkerParent" type="Node2D" parent="." unique_id=1923947539]
+position = Vector2(280, 64)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=422081176]
+
+[node name="GameUI" type="Control" parent="CanvasLayer" unique_id=1770971107]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameUI" unique_id=1605750698]
+layout_mode = 0
+offset_left = 126.0
+offset_top = 67.5
+offset_right = 254.0
+offset_bottom = 125.0
+
+[node name="Panel" type="Panel" parent="CanvasLayer/GameUI/VBoxContainer" unique_id=843315770]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("5_e0oqy")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GameUI/VBoxContainer/Panel" unique_id=1144947573]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="ScoreLabel" type="RichTextLabel" parent="CanvasLayer/GameUI/VBoxContainer/Panel/MarginContainer" unique_id=1850213946]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "Score: "
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/GameUI/VBoxContainer" unique_id=1815159822]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("5_e0oqy")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GameUI/VBoxContainer/Panel2" unique_id=519397202]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="HighScoreLabel" type="RichTextLabel" parent="CanvasLayer/GameUI/VBoxContainer/Panel2/MarginContainer" unique_id=1175182923]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "High Score: "
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="PauseMenu" type="Control" parent="CanvasLayer" unique_id=281583914]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PauseMenu" unique_id=1945103326]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="HBoxContainer" type="VBoxContainer" parent="CanvasLayer/PauseMenu" unique_id=1135114710]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -1.0
+offset_right = 55.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/PauseMenu/HBoxContainer" unique_id=2137876143]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 31
+bbcode_enabled = true
+text = "Paused"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="CanvasLayer/PauseMenu/HBoxContainer" unique_id=1924230945]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("5_e0oqy")
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="CanvasLayer/PauseMenu/HBoxContainer" unique_id=501528968]
+layout_mode = 2
+theme = ExtResource("5_e0oqy")
+text = "Restart"
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/PauseMenu/HBoxContainer" unique_id=1406677207]
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("5_e0oqy")
+text = "Exit"
+
+[node name="GameOverMenu" type="Control" parent="CanvasLayer" unique_id=1985013775]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GameOverMenu" unique_id=529567717]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameOverMenu" unique_id=1910746374]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -1.0
+offset_right = 55.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/GameOverMenu/VBoxContainer" unique_id=1437887222]
+custom_minimum_size = Vector2(0, 13.2)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 31
+bbcode_enabled = true
+text = "Game Over"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GameOverMenu/VBoxContainer" unique_id=1462054594]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 5
+
+[node name="GameOverHighScoreLabel" type="RichTextLabel" parent="CanvasLayer/GameOverMenu/VBoxContainer/HBoxContainer" unique_id=2146074009]
+custom_minimum_size = Vector2(87, 0)
+propagate_maximum_size = true
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "High Score:"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="GameOverHighScoreValueLabel" type="RichTextLabel" parent="CanvasLayer/GameOverMenu/VBoxContainer/HBoxContainer" unique_id=853821341]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+propagate_maximum_size = true
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "????"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GameOverMenu/VBoxContainer" unique_id=828269609]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 5
+
+[node name="GameOverScoreLabel" type="RichTextLabel" parent="CanvasLayer/GameOverMenu/VBoxContainer/HBoxContainer2" unique_id=557153245]
+custom_minimum_size = Vector2(87, 0)
+propagate_maximum_size = true
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "Score:"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="GameOverScoreValueLabel" type="RichTextLabel" parent="CanvasLayer/GameOverMenu/VBoxContainer/HBoxContainer2" unique_id=1608124525]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 0)
+propagate_maximum_size = true
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "????"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 2
+
+[node name="RestartButton" type="Button" parent="CanvasLayer/GameOverMenu/VBoxContainer" unique_id=1201401101]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("5_e0oqy")
+text = "Restart"
+
+[node name="GameOverExitButton" type="Button" parent="CanvasLayer/GameOverMenu/VBoxContainer" unique_id=1912879856]
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("5_e0oqy")
+text = "Exit"
+
+[connection signal="timeout" from="BlockFallTimer" to="." method="_on_block_fall_timer_timeout"]
+[connection signal="timeout" from="SinkingTimer" to="." method="_on_sinking_timer_timeout"]
+[connection signal="timeout" from="RowClearTimer" to="." method="_on_row_clear_timer_timeout"]
+[connection signal="button_up" from="CanvasLayer/PauseMenu/HBoxContainer/ResumeButton" to="." method="_on_resume_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/PauseMenu/HBoxContainer/RestartButton" to="." method="_on_restart_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/PauseMenu/HBoxContainer/ExitButton" to="." method="_on_exit_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/GameOverMenu/VBoxContainer/RestartButton" to="." method="_on_restart_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/GameOverMenu/VBoxContainer/GameOverExitButton" to="." method="_on_exit_button_button_up"]
