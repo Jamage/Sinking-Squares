@@ -22,6 +22,7 @@ extends Node2D
 @onready var game_over_score_value_label: RichTextLabel = %GameOverScoreValueLabel
 @onready var swim_label: RichTextLabel = %SwimLabel
 @onready var attack_label: RichTextLabel = %AttackLabel
+@onready var virtual_controls: Control = %VirtualControls
 
 const BLOCK = preload("uid://5o6p687rj8tl")
 const GRASS_CELL = preload("uid://dlwa3axe3dxrc")
@@ -65,6 +66,8 @@ signal piecePlaced(cells: Array[Cell])
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	set_process(false)
+	if DisplayServer.is_touchscreen_available():
+		virtual_controls.visible = true
 	score_label.text = "Score: %.0f" % score
 	high_score_label.text = "High Score: %.0f" % ScoreManager.highest_record
 	game_over_menu.visible = false

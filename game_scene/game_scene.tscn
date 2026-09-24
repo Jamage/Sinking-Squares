@@ -6,6 +6,14 @@
 [ext_resource type="Script" uid="uid://c0qtv7d8hp04k" path="res://components/input_component.gd" id="2_k340r"]
 [ext_resource type="Shader" uid="uid://dttsg5kqe3o8" path="res://shaders/outline.gdshader" id="4_05euk"]
 [ext_resource type="Theme" uid="uid://dkbel2s7qwes8" path="res://main_theme.tres" id="5_e0oqy"]
+[ext_resource type="Texture2D" uid="uid://c1bplap14l3gg" path="res://Art/tile_0166.png" id="7_f63yk"]
+[ext_resource type="Texture2D" uid="uid://dohhkua8gx21" path="res://Art/tile_0168.png" id="8_wohtb"]
+[ext_resource type="Texture2D" uid="uid://cun3gnem6s6t0" path="res://Art/tile_0169.png" id="9_a85jl"]
+[ext_resource type="Texture2D" uid="uid://yedvq0xbxj8p" path="res://Art/tile_0167.png" id="10_xes44"]
+[ext_resource type="Texture2D" uid="uid://b5dx08rrao8oa" path="res://Art/tile_0008.png" id="11_2d281"]
+[ext_resource type="Texture2D" uid="uid://csvtk0wyqg537" path="res://Art/tile_0009.png" id="12_36p0e"]
+[ext_resource type="Texture2D" uid="uid://dvss0a46f1lc3" path="res://Art/tile_0560.png" id="13_f7wrr"]
+[ext_resource type="Texture2D" uid="uid://dnmy8rixrj1hn" path="res://Art/tile_0063.png" id="14_mwglh"]
 
 [sub_resource type="Resource" id="Resource_3kg8t"]
 script = ExtResource("2_k340r")
@@ -19,6 +27,12 @@ shader_parameter/line_scale = 0.0
 shader_parameter/frequency = 0.50000002375
 shader_parameter/light_offset = 0.50001002374975
 shader_parameter/alpha = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yk1l8"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_swjf5"]
+size = Vector2(16, 16)
 
 [node name="GameScene" type="Node2D" unique_id=2034316869]
 script = ExtResource("1_3kg8t")
@@ -82,13 +96,10 @@ mouse_filter = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameUI" unique_id=1605750698]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.17500001
-anchor_top = 0.157
-anchor_right = 0.35300002
-anchor_bottom = 0.47500002
-offset_top = -0.055999756
-offset_right = -0.16000366
-offset_bottom = 0.19999695
+offset_left = 126.00001
+offset_top = 64.0
+offset_right = 254.0
+offset_bottom = 194.0
 
 [node name="Panel" type="Panel" parent="CanvasLayer/GameUI/VBoxContainer" unique_id=843315770]
 layout_mode = 2
@@ -201,6 +212,103 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 vertical_alignment = 1
+
+[node name="VirtualControls" type="Control" parent="CanvasLayer" unique_id=1676939820]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftControls" type="Control" parent="CanvasLayer/VirtualControls" unique_id=303661570]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="UpButton" type="TouchScreenButton" parent="CanvasLayer/VirtualControls/LeftControls" unique_id=2071472909]
+position = Vector2(79, -145)
+scale = Vector2(3, 2.546)
+texture_normal = ExtResource("7_f63yk")
+shape = SubResource("RectangleShape2D_yk1l8")
+action = "move_up"
+visibility_mode = 1
+
+[node name="DownButton" type="TouchScreenButton" parent="CanvasLayer/VirtualControls/LeftControls" unique_id=165603507]
+position = Vector2(79, -51)
+scale = Vector2(3, 2.547)
+texture_normal = ExtResource("8_wohtb")
+shape = SubResource("RectangleShape2D_yk1l8")
+action = "move_down"
+visibility_mode = 1
+
+[node name="LeftButton" type="TouchScreenButton" parent="CanvasLayer/VirtualControls/LeftControls" unique_id=2114817998]
+position = Vector2(27.000008, -98)
+scale = Vector2(3, 2.547)
+texture_normal = ExtResource("9_a85jl")
+shape = SubResource("RectangleShape2D_yk1l8")
+action = "move_left"
+visibility_mode = 1
+
+[node name="RightButton" type="TouchScreenButton" parent="CanvasLayer/VirtualControls/LeftControls" unique_id=1098984338]
+position = Vector2(133.00002, -98)
+scale = Vector2(3, 2.547)
+texture_normal = ExtResource("10_xes44")
+shape = SubResource("RectangleShape2D_yk1l8")
+action = "move_right"
+visibility_mode = 1
+
+[node name="RightControls" type="Control" parent="CanvasLayer/VirtualControls" unique_id=579301554]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -154.0
+offset_top = -114.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="AButton" type="TouchScreenButton" parent="CanvasLayer/VirtualControls/RightControls" unique_id=1049643326]
+position = Vector2(-18, 20)
+scale = Vector2(3, 2.547)
+texture_normal = ExtResource("11_2d281")
+shape = SubResource("RectangleShape2D_yk1l8")
+action = "rotate_cw"
+visibility_mode = 1
+
+[node name="BButton" type="TouchScreenButton" parent="CanvasLayer/VirtualControls/RightControls" unique_id=1511715357]
+position = Vector2(45, 20)
+scale = Vector2(3, 2.547)
+texture_normal = ExtResource("12_36p0e")
+shape = SubResource("RectangleShape2D_yk1l8")
+action = "rotate_ccw"
+visibility_mode = 1
+
+[node name="RTButton" type="TouchScreenButton" parent="CanvasLayer/VirtualControls/RightControls" unique_id=322073836]
+position = Vector2(45, -34)
+scale = Vector2(2.9999998, 2.546)
+texture_normal = ExtResource("13_f7wrr")
+shape = SubResource("RectangleShape2D_yk1l8")
+action = "swap_mode"
+visibility_mode = 1
+
+[node name="Control" type="Control" parent="CanvasLayer/VirtualControls" unique_id=2073932661]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartButton" type="TouchScreenButton" parent="CanvasLayer/VirtualControls/Control" unique_id=9869431]
+scale = Vector2(3, 3)
+texture_normal = ExtResource("14_mwglh")
+shape = SubResource("RectangleShape2D_swjf5")
+action = "start"
+visibility_mode = 1
 
 [node name="PauseMenu" type="Control" parent="CanvasLayer" unique_id=281583914]
 unique_name_in_owner = true
