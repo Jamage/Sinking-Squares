@@ -21,4 +21,4 @@ mono_crash.*.json
 # Extra stuff
 *.tmp
 
-.builds/
+builds/*
