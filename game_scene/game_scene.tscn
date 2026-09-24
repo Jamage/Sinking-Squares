@@ -24,10 +24,10 @@ shader_parameter/alpha = 1.0
 script = ExtResource("1_3kg8t")
 input = SubResource("Resource_3kg8t")
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=125558850]
+[node name="BackgroundCanvas" type="CanvasLayer" parent="." unique_id=125558850]
 layer = -1
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer2" unique_id=1098617512]
+[node name="ColorRect" type="ColorRect" parent="BackgroundCanvas" unique_id=1098617512]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -80,11 +80,15 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GameUI" unique_id=1605750698]
-layout_mode = 0
-offset_left = 126.0
-offset_top = 67.5
-offset_right = 254.0
-offset_bottom = 125.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.17500001
+anchor_top = 0.157
+anchor_right = 0.35300002
+anchor_bottom = 0.47500002
+offset_top = -0.055999756
+offset_right = -0.16000366
+offset_bottom = 0.19999695
 
 [node name="Panel" type="Panel" parent="CanvasLayer/GameUI/VBoxContainer" unique_id=843315770]
 layout_mode = 2
@@ -137,6 +141,62 @@ layout_mode = 2
 theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 text = "High Score: "
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="Panel4" type="Panel" parent="CanvasLayer/GameUI/VBoxContainer" unique_id=237230303]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("5_e0oqy")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GameUI/VBoxContainer/Panel4" unique_id=923535572]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="AttackLabel" type="RichTextLabel" parent="CanvasLayer/GameUI/VBoxContainer/Panel4/MarginContainer" unique_id=759721257]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "Attack: "
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="Panel3" type="Panel" parent="CanvasLayer/GameUI/VBoxContainer" unique_id=153606561]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("5_e0oqy")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GameUI/VBoxContainer/Panel3" unique_id=1052988141]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="SwimLabel" type="RichTextLabel" parent="CanvasLayer/GameUI/VBoxContainer/Panel3/MarginContainer" unique_id=1010007076]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "Swim: "
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
@@ -199,6 +259,7 @@ theme = ExtResource("5_e0oqy")
 text = "Restart"
 
 [node name="ExitButton" type="Button" parent="CanvasLayer/PauseMenu/HBoxContainer" unique_id=1406677207]
+visible = false
 layout_mode = 2
 size_flags_vertical = 4
 theme = ExtResource("5_e0oqy")
@@ -315,6 +376,7 @@ theme = ExtResource("5_e0oqy")
 text = "Restart"
 
 [node name="GameOverExitButton" type="Button" parent="CanvasLayer/GameOverMenu/VBoxContainer" unique_id=1912879856]
+visible = false
 layout_mode = 2
 size_flags_vertical = 4
 theme = ExtResource("5_e0oqy")

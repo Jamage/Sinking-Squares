@@ -20,9 +20,11 @@ extends Node2D
 @onready var restart_button: Button = %RestartButton
 @onready var game_over_high_score_value_label: RichTextLabel = %GameOverHighScoreValueLabel
 @onready var game_over_score_value_label: RichTextLabel = %GameOverScoreValueLabel
+@onready var swim_label: RichTextLabel = %SwimLabel
+@onready var attack_label: RichTextLabel = %AttackLabel
 
 const BLOCK = preload("uid://5o6p687rj8tl")
-const CELL = preload("uid://dlwa3axe3dxrc")
+const GRASS_CELL = preload("uid://dlwa3axe3dxrc")
 const ONE = preload("uid://qu0ooakj8j5j")
 const TWO = preload("uid://6o5ud7bwd701")
 const THREE = preload("uid://0r4qrewj157g")
@@ -55,7 +57,10 @@ var highestPlayerPosition : int = 17
 var sinkCount : int = 0
 var base_sink_time := 1.6
 
-signal piecePlaced()
+var swim : int = 0
+var attacks : int = 0
+
+signal piecePlaced(cells: Array[Cell])
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -84,7 +89,7 @@ func _ready() -> void:
 	set_process(true)
 	block_fall_timer.start()
 	sinking_timer.start()
-	row_clear_timer.start()
+	#row_clear_timer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -384,7 +389,7 @@ func move_block(move_dir: Vector2i) -> void:
 func fill_bottom() -> void:
 	for row in range(grid_height - 1, grid_height - 4, -1):
 		for column in range(grid_width):
-			var cell : Cell = CELL.instantiate()
+			var cell : Cell = GRASS_CELL.instantiate()
 			placed_parent.add_child(cell)
 			cell.set_type(Enums.CellType.Grass)
 			cell.position = Vector2(column * cell_height, row * cell_width)
@@ -411,10 +416,42 @@ func reset_bag_positions() -> void:
 
 func can_move_player(move_dir: Vector2i) -> bool:
 	var newPos = playerPosition + move_dir
-	return gridObjects.has(newPos) and gridObjects[newPos].cellType == Enums.CellType.Grass
+	return gridObjects.has(newPos) and (
+		gridObjects[newPos].cellType == Enums.CellType.Grass
+		or gridObjects[newPos].cellType == Enums.CellType.Sword
+		or gridObjects[newPos].cellType == Enums.CellType.Heart
+		or gridObjects[newPos].cellType == Enums.CellType.Chest
+		or gridObjects[newPos].cellType == Enums.CellType.WaterDrop
+		or (gridObjects[newPos].cellType == Enums.CellType.Monster and attacks >= 1)
+		or (gridObjects[newPos].cellType == Enums.CellType.Water and swim >= 1)
+		)
 
-func move_player(move_dir: Vector2i) -> void:
+func move_player(move_dir: Vector2i, reposition: bool = false) -> void:
 	playerPosition += move_dir
+	if gridObjects[playerPosition].cellType == Enums.CellType.Water:
+		if !reposition:
+			swim -= 1
+		update_swim_label()
+	elif gridObjects[playerPosition].cellType == Enums.CellType.WaterDrop:
+		swim += 1
+		update_swim_label()
+		gridObjects[playerPosition].set_type(Enums.CellType.Grass)
+	elif gridObjects[playerPosition].cellType == Enums.CellType.Sword:
+		attacks += 1
+		update_attack_label()
+		gridObjects[playerPosition].set_type(Enums.CellType.Grass)
+	elif gridObjects[playerPosition].cellType == Enums.CellType.Monster:
+		attacks -= 1
+		update_attack_label()
+		scoreBonus += 5.0
+		gridObjects[playerPosition].set_type(Enums.CellType.Grass)
+	elif gridObjects[playerPosition].cellType == Enums.CellType.Chest:
+		scoreBonus += 50.0
+		gridObjects[playerPosition].set_type(Enums.CellType.Grass)
+	elif gridObjects[playerPosition].cellType == Enums.CellType.Heart:
+		gridObjects[playerPosition].set_type(Enums.CellType.Grass)
+		pass
+		
 	update_player_position()
 	if playerPosition.y < highestPlayerPosition:
 		highestPlayerPosition = playerPosition.y
@@ -499,7 +536,7 @@ func hard_drop() -> void:
 func set_next_block() -> void:
 	block_fall_timer.stop()
 	add_block_cells()
-	piecePlaced.emit()
+	piecePlaced.emit(currentBlock.get_cells())
 	
 	spawn_parent.remove_child(currentBlock)
 	for i in currentBlock.cells.size():
@@ -543,13 +580,22 @@ func game_over() -> void:
 	game_over_menu.visible = true
 	restart_button.grab_focus()
 
-func on_piece_placed() -> void:
+func on_piece_placed(cells : Array[Cell]) -> void:
 	var cellCount : int = 0
 	var confirmedCells : Array[Vector2i] = []
-	var clearedRows : Array[int] = []
+	#var clearedRows : Array[int] = []
 	for row in range(grid_height - 1, -1, -1):
 		cellCount = 0
 		confirmedCells = []
+		var isPlacedRow := false
+		for cell in cells:
+			if cell.cell_position.y == row:
+				isPlacedRow = true
+				break
+		
+		if !isPlacedRow:
+			continue
+			
 		for column in range(grid_width):
 			if !gridObjects.has(Vector2i(column, row)):
 				break
@@ -557,12 +603,22 @@ func on_piece_placed() -> void:
 				cellCount += 1
 				confirmedCells.append(Vector2i(column, row))
 				if cellCount == grid_width:
-					print("Cleared Row: %d" % row)
-					clearedRows.append(row)
-					for cellPos in confirmedCells:
-						var cell = gridObjects[cellPos]
-						cell.set_type(Enums.CellType.Grass)
+					print("Filled Row: %d" % row)
+					swim += 1
+					attacks += 1
+					update_swim_label()
+					update_attack_label()
+					#clearedRows.append(row)
+					#for cellPos in confirmedCells:
+						#var cell = gridObjects[cellPos]
+						#cell.set_type(Enums.CellType.Grass)
 
+func update_swim_label():
+	swim_label.text = "Swim: %d" % swim
+
+func update_attack_label():
+	attack_label.text = "Attack: %d" % attacks
+	
 func _on_block_fall_timer_timeout() -> void:
 	soft_drop()
 
@@ -574,9 +630,10 @@ func _on_sinking_timer_timeout() -> void:
 			#TO DO: GAME OVER
 			print("YOU DIED")
 			game_over()
+			return
 			
 		move_all_cells(Vector2i.DOWN)
-		move_player(Vector2i.DOWN)
+		move_player(Vector2i.DOWN, true)
 		sinkingOffset = 0.0
 		sinkCount += 1
 		if sinkCount % 5 == 0:
@@ -596,7 +653,8 @@ func update_sink_time() -> void:
 		player_adjust = .6
 	elif playerPosition.y > 0:
 		player_adjust = 1.0
-	sinking_timer.wait_time = clampf(base_sink_time - (.2 * (sinkCount / 5.0)) - player_adjust, .4, 2)
+	#sinking_timer.wait_time = clampf(base_sink_time - (.2 * (sinkCount / 5.0)) - player_adjust, .4, 2)
+	sinking_timer.wait_time = clampf(base_sink_time - (.2 * (sinkCount / 5.0)), .8, 2)
 
 func update_block_position() -> void:
 	currentBlock.position = Vector2(centerPos.x * cell_width, centerPos.y * cell_height)
@@ -647,6 +705,9 @@ func _on_restart_button_button_up() -> void:
 	# Clear all gridObjects
 	# Reset score variables
 	# Reset player position
+	if score > ScoreManager.highest_record:
+		ScoreManager.highest_record = int(score)
+		ScoreManager.save_score()
 	get_tree().reload_current_scene()
 
 
@@ -670,9 +731,10 @@ func signal_row(val: int, row: int) -> void:
 		remove_row(row)
 		if playerPosition.y == row:
 			game_over()
+			return
 		move_all_cells_above(row, Vector2i.DOWN)
 		if playerPosition.y <= row:
-			move_player(Vector2i.DOWN)
+			move_player(Vector2i.DOWN, true)
 	else:
 		create_markers_for(val, row)
 
